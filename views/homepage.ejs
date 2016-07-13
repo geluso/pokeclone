@@ -1,0 +1,26 @@
+<script src='https://api.mapbox.com/mapbox-gl-js/v0.20.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v0.20.1/mapbox-gl.css' rel='stylesheet' />
+
+<style>
+  body { margin:0; padding:0; }
+  #map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+
+<div id='map' style='width: 100%; height: 100%;'></div>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VsdXNvIiwiYSI6ImNpcWtqb2R5ZjAwMDI1cWt2cjl6amptbmcifQ.2OAw9oY9Bnd2IFA7-LVwYw';
+var center = [-122.3479289, 47.6418751];
+var horzBounds = .25;
+var vertBounds = .12;
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v9',
+    center: [-122.3479289, 47.6418751],
+    maxBounds: [
+      [center[0] - horzBounds, center[1] - vertBounds], // southwest
+      [center[0] + horzBounds, center[1] + vertBounds] // northeast
+    ],
+    zoom: 11
+});
+</script>
