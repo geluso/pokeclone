@@ -27,7 +27,9 @@ var map = L.mapbox.map('map', 'mapbox.streets', {
 .setView([center[0], center[1]], zoom);
 
 var offset = .00025;
-offset = .01;
+if (LARGE_POKEMON) {
+  offset = .01;
+}
 var imageUrl = 'pokemedia/images/sprites/front/143.png';
 var southWest = [fremont_troll[0] - offset / 2, fremont_troll[1] - offset];
 var northEast = [fremont_troll[0] + offset / 2, fremont_troll[1] + offset];
