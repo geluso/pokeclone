@@ -42,12 +42,14 @@ function createPokemon(n, loc) {
   L.imageOverlay(imageUrl, imageBounds).addTo(map);
 }
 
+var spawnVertBounds = .12;
+var spawnHorzBounds = .12;
 function randVert() {
-  return randRange(center[0] - vertBounds, center[0] + vertBounds);
+  return randRange(center[0] - spawnVertBounds, center[0] + spawnVertBounds);
 }
 
 function randHorz() {
-  return randRange(center[1] - horzBounds, center[1] + horzBounds);
+  return randRange(center[1] - spawnHorzBounds + .03, center[1] + spawnHorzBounds);
 }
 
 function randRange(max, min) {
@@ -55,6 +57,7 @@ function randRange(max, min) {
   return n;
 }
 
+Math.seedrandom("POKESEATTLE");
 for (var i = 1; i <= 151; i++) {
   var loc = [randVert(), randHorz()];
   createPokemon(i, loc);
