@@ -1,1 +1,1 @@
-var fremont_troll = [-122.347323, 47.650987];
+var fremont_troll = [47.650987, -122.347323];

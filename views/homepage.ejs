@@ -1,5 +1,5 @@
-<script src='https://api.mapbox.com/mapbox-gl-js/v0.20.1/mapbox-gl.js'></script>
-<link href='https://api.mapbox.com/mapbox-gl-js/v0.20.1/mapbox-gl.css' rel='stylesheet' />
+<script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
 
 <style>
   body { margin:0; padding:0; }
@@ -9,110 +9,31 @@
 <div id='map' style='width: 100%; height: 100%;'></div>
 
 <script>
-mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VsdXNvIiwiYSI6ImNpcWtqb2R5ZjAwMDI1cWt2cjl6amptbmcifQ.2OAw9oY9Bnd2IFA7-LVwYw';
-var center = [-122.3479289, 47.6418751];
+L.mapbox.accessToken = 'pk.eyJ1IjoiZ2VsdXNvIiwiYSI6ImNpcWtqb2R5ZjAwMDI1cWt2cjl6amptbmcifQ.2OAw9oY9Bnd2IFA7-LVwYw';
+var center = [47.6418751, -122.3479289];
+var zoom = 10;
 var horzBounds = .25;
 var vertBounds = .12;
 var offset = .001;
-var mapStyle = {
-    "version": 8,
-    "name": "Dark",
-    "sources": {
-        "mapbox": {
-            "type": "vector",
-            "url": "mapbox://mapbox.mapbox-streets-v6"
-        },
-        "overlay": {
-            "type": "image",
-            "url": "pokemedia/images/sprites/front/143.png",
-            "coordinates": [
-                // SW - +
-                [fremont_troll[0] - offset, fremont_troll[1] + offset],
-                // + +
-                [fremont_troll[0] + offset, fremont_troll[1] + offset],
-                // + -
-                [fremont_troll[0] + offset, fremont_troll[1] - offset],
-                // --
-                [fremont_troll[0] - offset, fremont_troll[1] - offset],
-            ]
-        }
-    },
-    "sprite": "mapbox://sprites/mapbox/light-v9",
-    "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
-    "layers": [
-        {
-            "id": "background",
-            "type": "background",
-            "paint": {"background-color": "#111"}
-        },
-        {
-            "id": "water",
-            "source": "mapbox",
-            "source-layer": "water",
-            "type": "fill",
-            "paint": {"fill-color": "#2c2c2c"}
-        },
-        {
-            "id": "boundaries",
-            "source": "mapbox",
-            "source-layer": "admin",
-            "type": "line",
-            "paint": {"line-color": "#797979", "line-dasharray": [2, 2, 6, 2]},
-            "filter": ["all", ["==", "maritime", 0]]
-        },
-        {
-            "id": "overlay",
-            "source": "overlay",
-            "type": "raster",
-            "paint": {"raster-opacity": 0.85}
-        },
-        {
-            "id": "cities",
-            "source": "mapbox",
-            "source-layer": "place_label",
-            "type": "symbol",
-            "layout": {
-                "text-field": "{name_en}",
-                "text-font": ["DIN Offc Pro Bold", "Arial Unicode MS Bold"],
-                "text-size": {"stops": [[4, 9], [6, 12]]}
-            },
-            "paint": {
-                "text-color": "#969696",
-                "text-halo-width": 2,
-                "text-halo-color": "rgba(0, 0, 0, 0.85)"
-            }
-        },
-        {
-            "id": "states",
-            "source": "mapbox",
-            "source-layer": "state_label",
-            "type": "symbol",
-            "layout": {
-                "text-transform": "uppercase",
-                "text-field": "{name_en}",
-                "text-font": ["DIN Offc Pro Bold", "Arial Unicode MS Bold"],
-                "text-letter-spacing": 0.15,
-                "text-max-width": 7,
-                "text-size": {"stops": [[4, 10], [6, 14]]}
-            },
-            "filter": [">=", "area", 80000],
-            "paint": {
-                "text-color": "#969696",
-                "text-halo-width": 2,
-                "text-halo-color": "rgba(0, 0, 0, 0.85)"
-            }
-        }
-    ]
-};
-var map = new mapboxgl.Map({
-    container: 'map',
-    //style: 'mapbox://styles/mapbox/streets-v9',
-    style: mapStyle,
-    center: [-122.3479289, 47.6418751],
-    maxBounds: [
-      [center[0] - horzBounds, center[1] - vertBounds], // southwest
-      [center[0] + horzBounds, center[1] + vertBounds] // northeast
-    ],
-    zoom: 11
+
+var southWest = L.latLng(center[0] - vertBounds, center[1] - horzBounds),
+    northEast = L.latLng(center[0] + vertBounds, center[1] + horzBounds),
+    bounds = L.latLngBounds(southWest, northEast);
+
+var map = L.mapbox.map('map', 'mapbox.streets', {
+  maxBounds: bounds,
+  maxZoom: 19,
+  minZoom: 11
+})
+.setView([center[0], center[1]], zoom);
+
+// L.marker is a low-level marker constructor in Leaflet.
+var myIcon = L.icon({
+	iconUrl: 'pokemedia/images/sprites/front/143.png',
+	iconRetinaUrl: 'my-icon@2x.png',
+	iconSize: [96, 96]
 });
+
+L.marker(fremont_troll, {icon: myIcon}).addTo(map);
+
 </script>
