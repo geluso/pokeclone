@@ -14,7 +14,6 @@ var center = [47.6418751, -122.3479289];
 var zoom = 10;
 var horzBounds = .25;
 var vertBounds = .12;
-var offset = .001;
 
 var southWest = L.latLng(center[0] - vertBounds, center[1] - horzBounds),
     northEast = L.latLng(center[0] + vertBounds, center[1] + horzBounds),
@@ -27,13 +26,11 @@ var map = L.mapbox.map('map', 'mapbox.streets', {
 })
 .setView([center[0], center[1]], zoom);
 
-// L.marker is a low-level marker constructor in Leaflet.
-var myIcon = L.icon({
-	iconUrl: 'pokemedia/images/sprites/front/143.png',
-	iconRetinaUrl: 'my-icon@2x.png',
-	iconSize: [96, 96]
-});
-
-L.marker(fremont_troll, {icon: myIcon}).addTo(map);
+var offset = .00025;
+var imageUrl = 'pokemedia/images/sprites/front/143.png';
+var southWest = [fremont_troll[0] - offset / 2, fremont_troll[1] - offset];
+var northEast = [fremont_troll[0] + offset / 2, fremont_troll[1] + offset];
+imageBounds = [southWest, northEast];
+L.imageOverlay(imageUrl, imageBounds).addTo(map);
 
 </script>
