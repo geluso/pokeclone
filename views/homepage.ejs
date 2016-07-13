@@ -27,10 +27,37 @@ var map = L.mapbox.map('map', 'mapbox.streets', {
 .setView([center[0], center[1]], zoom);
 
 var offset = .00025;
+offset = .01;
 var imageUrl = 'pokemedia/images/sprites/front/143.png';
 var southWest = [fremont_troll[0] - offset / 2, fremont_troll[1] - offset];
 var northEast = [fremont_troll[0] + offset / 2, fremont_troll[1] + offset];
 imageBounds = [southWest, northEast];
 L.imageOverlay(imageUrl, imageBounds).addTo(map);
+
+function createPokemon(n, loc) {
+  var imageUrl = 'pokemedia/images/sprites/front/' + n + '.png';
+  var southWest = [loc[0] - offset / 2, loc[1] - offset];
+  var northEast = [loc[0] + offset / 2, loc[1] + offset];
+  imageBounds = [southWest, northEast];
+  L.imageOverlay(imageUrl, imageBounds).addTo(map);
+}
+
+function randVert() {
+  return randRange(center[0] - vertBounds, center[0] + vertBounds);
+}
+
+function randHorz() {
+  return randRange(center[1] - horzBounds, center[1] + horzBounds);
+}
+
+function randRange(max, min) {
+  var n = min + (max - min) * Math.random();
+  return n;
+}
+
+for (var i = 1; i <= 151; i++) {
+  var loc = [randVert(), randHorz()];
+  createPokemon(i, loc);
+}
 
 </script>
