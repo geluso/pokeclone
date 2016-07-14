@@ -65,4 +65,16 @@ for (var i = 1; i <= 151; i++) {
   createPokemon(i, loc);
 }
 
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    var lat = pos.coords.latitude;
+    var long = pos.coords.longitude;
+    var radius = 100;
+    console.log("lat long", lat, long);
+    marker = L.circle([lat, long], radius).addTo(map);
+  });
+} else {
+    console.log("no GPS");
+}
+
 </script>

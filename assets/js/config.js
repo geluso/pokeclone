@@ -1,1 +1,1 @@
-var LARGE_POKEMON = false;
+var LARGE_POKEMON = true;
