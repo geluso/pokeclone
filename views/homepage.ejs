@@ -65,12 +65,31 @@ for (var i = 1; i <= 151; i++) {
   createPokemon(i, loc);
 }
 
+function near(latLong, spread) {
+  if (!spread) {
+    spread = .005;
+  }
+
+  var lat = latLong[0] + (spread / 2) * (Math.random() - .5);
+  var long = latLong[1] + (spread / 2) * (Math.random() - .5);
+
+  return [lat, long];
+}
+
+function manyDiglets(latLong) {
+  for (var i = 0; i < 10; i++) {
+    createPokemon(50, near(latLong));
+  }
+}
+
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(function(pos) {
     var lat = pos.coords.latitude;
     var long = pos.coords.longitude;
     var radius = 100;
-    console.log("lat long", lat, long);
+
+    manyDiglets([lat, long]);
+
     marker = L.circle([lat, long], radius).addTo(map);
   });
 } else {
