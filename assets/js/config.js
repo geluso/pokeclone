@@ -5,6 +5,17 @@ var INITIAL_ZOOM = 10;
 var HORZ_BOUNDS = .25;
 var VERT_BOUNDS = .12;
 var CENTER = [47.6418751, -122.3479289];
+
+var CIRCLE_SIZE = 100;
+var NEAR_SPREAD = 100 / 100 / 800;
+
+var STARTER_POKEMON = [
+    ["1", "Bulbasaur"],
+    ["4", "Charmander"],
+    ["7", "Squirtle"],
+    ["25", "Pikachu"]
+];
+
 var EASY_POKEMON =[
   ["12", "Weedle"],
   ["9", "Caterpie"],

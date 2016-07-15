@@ -70,6 +70,9 @@ function inside(imageBounds, latlng) {
 }
 
 function createPokemon(n, loc) {
+  // convert string numbers to real numbers
+  n = parseInt(n, 10);
+
   var imageUrl = 'pokemedia/images/sprites/front/' + n + '.png';
   var southWest = [loc[0] - offset / 2, loc[1] - offset];
   var northEast = [loc[0] + offset / 2, loc[1] + offset];
@@ -104,7 +107,7 @@ for (var i = 1; i <= 151; i++) {
 
 function near(latLong, spread) {
   if (!spread) {
-    spread = .005;
+    spread = NEAR_SPREAD;
   }
 
   var lat = latLong[0] + (spread / 2) * (Math.random() - .5);
@@ -117,10 +120,13 @@ function manyDiglets(latLong) {
   // for (var i = 0; i < NUM_DIGLETS; i++) {
   //   createPokemon(50, near(latLong));
   // }
-  for (var i = 0; i < NUM_DIGLETS; i++) {
-    var index = Math.round(Math.random() * EASY_POKEMON.length);
-    var id = parseInt(EASY_POKEMON[index][0], 10);
-    createPokemon(id, near(latLong));
+  // for (var i = 0; i < NUM_DIGLETS; i++) {
+  //   var index = Math.round(Math.random() * EASY_POKEMON.length);
+  //   var id = parseInt(EASY_POKEMON[index][0], 10);
+  //   createPokemon(id, near(latLong));
+  // }
+  for (var i = 0; i < STARTER_POKEMON.length; i++) {
+    createPokemon(STARTER_POKEMON[i][0], near(latLong));
   }
 }
 
@@ -128,7 +134,7 @@ if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(function(pos) {
     var lat = pos.coords.latitude;
     var long = pos.coords.longitude;
-    var radius = 100;
+    var radius = CIRCLE_SIZE;
 
     manyDiglets([lat, long]);
 
