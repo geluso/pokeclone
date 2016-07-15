@@ -1,4 +1,14 @@
 var LARGE_POKEMON = false;
+var POKE_IMAGE_SIZE;
+var POKE_IMAGE_SIZE_SMALL = .00025;
+var POKE_IMAGE_SIZE_LARGE = .005;
+
+if (LARGE_POKEMON) {
+  POKE_IMAGE_SIZE = POKE_IMAGE_SIZE_LARGE;
+} else {
+  POKE_IMAGE_SIZE = POKE_IMAGE_SIZE_SMALL;
+}
+
 var WELCOME_TEXT = 'Welcome to Poke Seattle! Please don\'t tell Facebook we\'re using their trademark "Poke" phrase.'
 var NUM_DIGLETS = 10;
 var INITIAL_ZOOM = 10;
@@ -8,6 +18,9 @@ var CENTER = [47.6418751, -122.3479289];
 
 var CIRCLE_SIZE = 100;
 var NEAR_SPREAD = 100 / 100 / 800;
+
+var SPAWN_VERT_BOUNDS = .12;
+var SPAWN_HORZ_BOUNDS = .12;
 
 var STARTER_POKEMON = [
     ["1", "Bulbasaur"],

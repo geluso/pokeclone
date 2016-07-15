@@ -38,10 +38,7 @@ map.on('click', function (e) {
 
 map.legendControl.addLegend('Welcome to Poke Seattle! Please don\'t tell Facebook we\'re using their trademark "Poke" phrase.')
 
-var offset = .00025;
-if (LARGE_POKEMON) {
-  offset = .01;
-}
+var offset = POKE_IMAGE_SIZE;
 var imageUrl = 'pokemedia/images/sprites/front/143.png';
 var southWest = [fremont_troll[0] - offset / 2, fremont_troll[1] - offset];
 var northEast = [fremont_troll[0] + offset / 2, fremont_troll[1] + offset];
@@ -84,8 +81,8 @@ function createPokemon(n, loc) {
   })
 }
 
-var spawnVertBounds = .12;
-var spawnHorzBounds = .12;
+var spawnVertBounds = SPAWN_VERT_BOUNDS;
+var spawnHorzBounds = SPAWN_HORZ_BOUNDS;
 function randVert() {
   return randRange(center[0] - spawnVertBounds, center[0] + spawnVertBounds);
 }
