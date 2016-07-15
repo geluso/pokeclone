@@ -10,10 +10,10 @@
 
 <script>
 L.mapbox.accessToken = 'pk.eyJ1IjoiZ2VsdXNvIiwiYSI6ImNpcWtqb2R5ZjAwMDI1cWt2cjl6amptbmcifQ.2OAw9oY9Bnd2IFA7-LVwYw';
-var center = [47.6418751, -122.3479289];
-var zoom = 10;
-var horzBounds = .25;
-var vertBounds = .12;
+var center = CENTER;
+var zoom = INITIAL_ZOOM;
+var horzBounds = HORZ_BOUNDS;
+var vertBounds = VERT_BOUNDS;
 
 var southWest = L.latLng(center[0] - vertBounds, center[1] - horzBounds),
     northEast = L.latLng(center[0] + vertBounds, center[1] + horzBounds),
@@ -26,6 +26,18 @@ var map = L.mapbox.map('map', 'mapbox.streets', {
 })
 .setView([center[0], center[1]], zoom);
 
+map.on('click', function (e) {
+  var ll = [e.latlng.lat, e.latlng.lng];
+  var poke = getPokemon(ll);
+  if (poke) {
+    console.log(poke);
+  } else {
+    console.log("no poke");
+  }
+});
+
+map.legendControl.addLegend('Welcome to Poke Seattle! Please don\'t tell Facebook we\'re using their trademark "Poke" phrase.')
+
 var offset = .00025;
 if (LARGE_POKEMON) {
   offset = .01;
@@ -36,12 +48,37 @@ var northEast = [fremont_troll[0] + offset / 2, fremont_troll[1] + offset];
 imageBounds = [southWest, northEast];
 L.imageOverlay(imageUrl, imageBounds).addTo(map);
 
+var CATCHABLE = [];
+
+function getPokemon(latlng) {
+  for (var i = 0; i < CATCHABLE.length; i++) {
+    var poke = CATCHABLE[i];
+    if (inside(poke.bounds, latlng)) {
+      return poke;
+    }
+  }
+}
+
+function inside(imageBounds, latlng) {
+  var aboveSouth = imageBounds[0][0] < latlng[0];
+  var belowNorth = imageBounds[1][0] > latlng[0];
+  var eastOfWest = imageBounds[0][1] < latlng[1];
+  var westOfEast = imageBounds[1][1] > latlng[1];
+
+  var result = aboveSouth && belowNorth && eastOfWest && westOfEast;
+  return result;
+}
+
 function createPokemon(n, loc) {
   var imageUrl = 'pokemedia/images/sprites/front/' + n + '.png';
   var southWest = [loc[0] - offset / 2, loc[1] - offset];
   var northEast = [loc[0] + offset / 2, loc[1] + offset];
   imageBounds = [southWest, northEast];
   L.imageOverlay(imageUrl, imageBounds).addTo(map);
+  CATCHABLE.push({
+    id: n,
+    bounds: imageBounds
+  })
 }
 
 var spawnVertBounds = .12;
@@ -77,8 +114,13 @@ function near(latLong, spread) {
 }
 
 function manyDiglets(latLong) {
-  for (var i = 0; i < 10; i++) {
-    createPokemon(50, near(latLong));
+  // for (var i = 0; i < NUM_DIGLETS; i++) {
+  //   createPokemon(50, near(latLong));
+  // }
+  for (var i = 0; i < NUM_DIGLETS; i++) {
+    var index = Math.round(Math.random() * EASY_POKEMON.length);
+    var id = parseInt(EASY_POKEMON[index][0], 10);
+    createPokemon(id, near(latLong));
   }
 }
 
@@ -91,6 +133,8 @@ if (navigator.geolocation) {
     manyDiglets([lat, long]);
 
     marker = L.circle([lat, long], radius).addTo(map);
+
+    map.setView(L.latLng(lat, long), 18);
   });
 } else {
     console.log("no GPS");

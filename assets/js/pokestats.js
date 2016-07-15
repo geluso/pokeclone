@@ -8,6 +8,8 @@ var SPEED = 6;
 var TOTAL = 7;
 var AVERAGE = 8;
 
+index = ["ID", "NAME", "HP", "ATTACK", "DEFENSE", "SP_ATTACK", "SP_DEFENSE", "SPEED", "TOTAL", "AVERAGE"]
+
 var stats = [
   [0,"None",45,49,49,65,65,45,318,53],
   [1,"Bulbasaur",45,49,49,65,65,45,318,53],
